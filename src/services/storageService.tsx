@@ -5,10 +5,11 @@ export class StorageService{
 
     async setItem(key: string, value: any, options = {}){
       await SInfo.setItem(key, value, options);
+      return SInfo.getItem(key, options);
     }
 
-    async getItem(key: string, options = {}){
-      await SInfo.getItem(key, options);
+    async getItem(key: string, options = {}): Promise<string | null>{
+      return SInfo.getItem(key, options);
     }
 
     async deleteItem(key: string, options = {}){
