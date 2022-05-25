@@ -54,7 +54,9 @@ export default function Navigator() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{
           headerShown: false,
         }} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{
+          headerShown: false,
+        }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
