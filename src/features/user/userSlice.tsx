@@ -2,12 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface UserState {
     userToken: string | null,
-    isSignout: boolean
 }
 
 const initialState: UserState = {
     userToken: null,
-    isSignout: true,
 }
 
 export const counterSlice = createSlice({
@@ -20,9 +18,6 @@ export const counterSlice = createSlice({
         clearToken: (state) => {
             state.userToken = null
         },
-        setSignout: (state, action: PayloadAction<boolean>) => {
-            state.isSignout = action.payload;
-        }
     },
 })
 

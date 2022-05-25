@@ -1,23 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Button, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
-import { authService } from '../services';
+import { authService, storageService } from '../services';
+
+import { RootState } from '../../store'
+import { useSelector, useDispatch } from 'react-redux'
+import { setToken, } from '../features/user/userSlice'
 
 export default function SignInScreen({ navigation }: any) {
 
-  const [isLoading, setIsLoading] = useState(false);
+  const userToken = useSelector((state: RootState) => state.user.userToken);
+
+
+  const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+
+    const bootstrapSignIn = async () => {
+      // TODO change this to get from storage, not state management
+      if (!userToken) {
+        setIsLoading(false);
+        return
+      }
+
+      // Get user data from token (nullify if there is an error, or token is invalid)
+
+      // Set user data in state
+      
+      // navigate to home page
+
+      
+    }
+
+    bootstrapSignIn();
+
+
+
+  }, [])
 
   const handleSignIn = async () => {
     setIsLoading(true);
     const { user, session, error } = await authService.signInUser('butlerfuqua+user1@gmail.com', 'password');
-    if (error) {
+    if (error || !session?.access_token) {
       Alert.alert(
         "Trouble Signing in",
-        error.message || `Please try again.`,
+        error?.message || `Please try again.`,
         [
           {
             text: "Close",
@@ -26,13 +56,11 @@ export default function SignInScreen({ navigation }: any) {
           },
         ]
       );
+      setIsLoading(false);
     } else {
-      console.log(session?.access_token);
+      setToken(session.access_token);
+      navigation.replace('Home');
     }
-
-    setIsLoading(false);
-
-
   }
 
   if (isLoading) {

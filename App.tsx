@@ -21,7 +21,7 @@ import Navigator from './src/navigation';
 
 function App() {
   return (
-    <Provider  store={store}>
+    <Provider store={store}>
       <SafeAreaProvider>
       <StatusBar />
       <Navigator />

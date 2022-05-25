@@ -19,61 +19,43 @@ const Stack = createNativeStackNavigator();
 export default function Navigator() {
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
-  const isSignout = useSelector((state: RootState) => state.user.isSignout);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const getToken = async () => {
-      try {
-        const token = await storageService.getItem('user-token');
-        setToken(token);
-
-      } catch (error) {
-        console.log(error)
-        setToken(null)
-      }
-      setIsLoading(false);
+    const bootstrapNavigator = async () => {
+      setIsLoading(true);
+      await new Promise(resolve => setTimeout(() => setIsLoading(false), 500));
     }
-    setIsLoading(true);
-    new Promise(resolve => setTimeout(() => resolve(getToken()), 500))
+    bootstrapNavigator();
+
   }, [])
 
   if (isLoading) {
-    // We haven't finished checking for the token yet
     return <SplashScreen />;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {userToken == null ? (
-          // No token found, user isn't signed in
-          <>
-            <Stack.Screen
-              name="SignIn"
-              component={SignInScreen}
-              options={{
-                // When logging out, a pop animation feels intuitive
-                // You can remove this if you want the default 'push' animation
-                animationTypeForReplace: isSignout ? 'pop' : 'push',
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name="SignUp" component={SignUpScreen} options={{
-              headerShown: false,
-            }} />
-            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{
-              headerShown: false,
-            }} />
-          </>
-        ) : (
-          // User is signed in
-          <>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-          </>
-        )}
+      <Stack.Navigator initialRouteName='SignIn'>
+        <Stack.Screen
+          name="SignIn"
+          component={SignInScreen}
+          options={{
+            // When logging out, a pop animation feels intuitive
+            // You can remove this if you want the default 'push' animation
+            // animationTypeForReplace: isSignout ? 'pop' : 'push',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{
+          headerShown: false,
+        }} />
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{
+          headerShown: false,
+        }} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
