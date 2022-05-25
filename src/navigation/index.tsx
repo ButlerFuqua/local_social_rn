@@ -8,7 +8,6 @@ import SplashScreen from '../screens/SplashScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import CounterScreen, {ShowState} from '../screens/CounterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,8 +28,6 @@ export default function Navigator() {
         {userToken == null ? (
           // No token found, user isn't signed in
           <>
-            <Stack.Screen name="Counter" component={CounterScreen} />
-            <Stack.Screen name="ShowCount" component={ShowState} />
             <Stack.Screen
               name="SignIn"
               component={SignInScreen}
