@@ -6,7 +6,7 @@ import { authService, storageService } from '../services';
 
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
-import { setToken, setEmail, } from '../features/user/userSlice'
+import { setToken, setEmail, setUserId} from '../features/user/userSlice'
 
 import { showAlert } from '../utils/screenUtils';
 
@@ -31,7 +31,9 @@ export default function SignInScreen({ navigation }: any) {
       if(!user && error ){
         return;
       }
+      console.log('user?.id', user?.id)
       dispatch(setEmail(user?.email || null));
+      dispatch(setUserId(user?.id || null));
       navigation.replace('Home');
     }
 
@@ -40,7 +42,7 @@ export default function SignInScreen({ navigation }: any) {
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    const { user, session, error } = await authService.signInUser('butlerfuqua+user1@gmail.com', 'password');
+    const { user, session, error } = await authService.signInUser('butlerfuqua+user@gmail.com', 'password');
     if (error || !session?.access_token) {
       showAlert("Trouble Signing in", error?.message || `Please try again.`);
       setIsLoading(false);
@@ -48,6 +50,7 @@ export default function SignInScreen({ navigation }: any) {
       // TODO change this to save to storage, not state management
       dispatch(setToken(session.access_token));
       dispatch(setEmail(user?.email || null));
+      dispatch(setUserId(user?.id || null));
       navigation.replace('Home');
     }
   }

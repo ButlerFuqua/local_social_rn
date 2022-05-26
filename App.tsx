@@ -1,4 +1,5 @@
-import 'react-native-gesture-handler'
+import 'react-native-gesture-handler';
+import 'react-native-url-polyfill/auto';
 import * as React from 'react';
 import { View, Text, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';

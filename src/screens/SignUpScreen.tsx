@@ -4,7 +4,7 @@ import { authService } from '../services';
 
 import { RootState } from '../../store'
 import { useDispatch } from 'react-redux'
-import { setToken, setEmail, } from '../features/user/userSlice'
+import { setToken, setEmail, setUsername, } from '../features/user/userSlice'
 
 import { showAlert } from '../utils/screenUtils';
 
@@ -27,6 +27,7 @@ export default function SignUpScreen({ navigation }: any) {
 
     if (session.access_token) {
       dispatch(setEmail(user.email || null));
+      dispatch(setUsername(user.email || null));
       dispatch(setToken(session.access_token));
       navigation.replace('Home');
     } else {

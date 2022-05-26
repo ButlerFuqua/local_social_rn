@@ -4,12 +4,14 @@ export interface UserState {
     userToken: string | null,
     username: string | null,
     email: string | null,
+    userId: string | null,
 }
 
 const initialState: UserState = {
     userToken: null,
     username: null,
     email: null,
+    userId: null,
 }
 
 export const counterSlice = createSlice({
@@ -25,6 +27,9 @@ export const counterSlice = createSlice({
         setEmail: (state, action: PayloadAction<string | null>) => {
             state.email = action.payload
         },
+        setUserId: (state, action: PayloadAction<string | null>) => {
+            state.userId = action.payload
+        },
         clearUserData: (state) => {
             state.userToken = null
             state.username = null
@@ -34,6 +39,6 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { clearUserData, setToken, setUsername, setEmail } = counterSlice.actions
+export const { clearUserData, setToken, setUsername, setEmail, setUserId} = counterSlice.actions
 
 export default counterSlice.reducer;
