@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import BulletinScreen from './BulletinScreen';
-import ProfileScreen from './ProfileScreen';
-import SettingsScreen from './SettingsScreen';
+import BulletinScreen from './bulletin/BulletinScreen';
+import ProfileScreen from './user/ProfileScreen';
+import SettingsScreen from './user/SettingsScreen';
 
 export default function HomeScreen({ navigation }: any) {
 

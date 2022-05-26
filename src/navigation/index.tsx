@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from '../screens/HomeScreen';
-import SignInScreen from '../screens/SignInScreen';
-import SplashScreen from '../screens/SplashScreen';
-import ResetPasswordScreen from '../screens/ResetPasswordScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import SignUpScreen from '../screens/SignUpScreen';
+import SignInScreen from '../screens/startup/SignInScreen';
+import SplashScreen from '../screens/startup/SplashScreen';
+import ResetPasswordScreen from '../screens/startup/ResetPasswordScreen';
+import ProfileScreen from '../screens/user/ProfileScreen';
+import SignUpScreen from '../screens/startup/SignUpScreen';
 import { storageService } from '../services';
 
 import { RootState } from '../../store'
