@@ -38,6 +38,7 @@ export default function BulletinNavigator() {
       }} />
       <Tab.Screen name="Create" component={CreatePostScreen} options={{
         title: "Add Post",
+        headerShown: false,
         tabBarIcon: ({focused}: any) => {
           return (
             <View>
