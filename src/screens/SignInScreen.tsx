@@ -15,38 +15,28 @@ export default function SignInScreen({ navigation }: any) {
   const userToken = useSelector((state: RootState) => state.user.userToken);
   const dispatch = useDispatch();
 
-
   const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  
-
   useEffect(() => {
-
     const bootstrapSignIn = async () => {
       // TODO change this to get from storage, not state management
       if (!userToken) {
         setIsLoading(false);
         return
       }
-
       // Get user data from token (nullify if there is an error, or token is invalid)
       const { user, error } = await authService.getUserDataFromToken(userToken);
       if(!user && error ){
         return;
       }
-
       dispatch(setEmail(user?.email || null));
       navigation.replace('Home');
-
     }
 
     bootstrapSignIn();
-
-
-
-  }, [])
+  }, []);
 
   const handleSignIn = async () => {
     setIsLoading(true);
