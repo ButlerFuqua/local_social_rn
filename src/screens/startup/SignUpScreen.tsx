@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Text, TextInput, View } from 'react-native';
+import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { authService } from '../../services';
 
 import { RootState } from '../../../store'
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { setToken, setEmail, setUsername, } from '../../features/user/userSlice'
 
 import { showAlert } from '../../utils/screenUtils';
+import CustomButton from '../../components/CustomButton';
 
 export default function SignUpScreen({ navigation }: any) {
 
@@ -35,8 +36,6 @@ export default function SignUpScreen({ navigation }: any) {
       setIsLoading(false);
     }
 
-
-
   }
 
   if (isLoading) {
@@ -49,20 +48,63 @@ export default function SignUpScreen({ navigation }: any) {
 
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <TextInput
         placeholder="email"
         value={email}
         onChangeText={setLocalEmail}
+        style={styles.input}
       />
       <TextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        style={styles.input}
       />
-      <Button title="Create Account" onPress={handleSignUp} />
-      <Button title="Sign in" onPress={() => navigation.replace('SignIn')} />
+
+      <View style={styles.divider}></View>
+
+      <CustomButton
+        action={handleSignUp}
+        backgroundColor="tomato"
+        text="Sign Up!"
+      />
+      <CustomButton
+        action={() => navigation.replace('SignIn')}
+        backgroundColor="lightsalmon"
+        text="Log in"
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    padding: 20,
+  },
+  divider: {
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  button: {
+    borderRadius: 50,
+    backgroundColor: 'tomato',
+    padding: 10,
+    textAlign: 'center',
+    color: '#fff',
+    elevation: 5,
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  input: {
+    backgroundColor: '#fefefe',
+    borderRadius: 50,
+    marginBottom: 5,
+    elevation: 5,
+    padding: 10
+  }
+})

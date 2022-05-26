@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 import { authService, storageService } from '../../services';
@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setToken, setEmail, setUserId} from '../../features/user/userSlice'
 
 import { showAlert } from '../../utils/screenUtils';
+import CustomButton from '../../components/CustomButton';
 
 export default function SignInScreen({ navigation }: any) {
 
@@ -16,7 +17,7 @@ export default function SignInScreen({ navigation }: any) {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [username, setUsername] = useState('');
+  const [email, setLocalEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
@@ -31,7 +32,6 @@ export default function SignInScreen({ navigation }: any) {
       if(!user && error ){
         return;
       }
-      console.log('user?.id', user?.id)
       dispatch(setEmail(user?.email || null));
       dispatch(setUserId(user?.id || null));
       navigation.replace('Home');
@@ -64,20 +64,52 @@ export default function SignInScreen({ navigation }: any) {
   }
 
   return (
-    <View>
-      <TextInput
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+    <View style={styles.container}>
+    <TextInput
+        placeholder="email"
+        value={email}
+        onChangeText={setLocalEmail}
+        style={styles.input}
       />
       <TextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        style={styles.input}
       />
-      <Button title="Sign in" onPress={handleSignIn} />
-      <Button title="Create Account" onPress={() => navigation.replace('SignUp')} />
+      
+      <View style={styles.divider}></View>
+
+      <CustomButton
+        action={handleSignIn}
+        text="Log in"
+      />
+      <CustomButton
+        action={() => navigation.replace('SignUp')}
+        backgroundColor="teal"
+        text="Create Account"
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'stretch', 
+    padding: 20,
+  },
+  divider:{
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  input: {
+    backgroundColor: '#fefefe',
+    borderRadius: 50,
+    marginBottom: 5,
+    elevation: 5,
+    padding: 10
+  }
+})
