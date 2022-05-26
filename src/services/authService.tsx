@@ -13,8 +13,6 @@ export class AuthService {
     }
 
     async signInUser(email: string, password: string): Promise<SignInResponse> {
-
-        
         try {
             const { user, session, error } = await this.client.auth.signIn({
                 email,

@@ -10,9 +10,7 @@ import { setUsername } from '../features/user/userSlice';
 export default function ProfileScreen() {
 
   const userId = useSelector((state: RootState) => state.user.userId);
-  const email = useSelector((state: RootState) => state.user.email);
   const username = useSelector((state: RootState) => state.user.username);
-  const userToken = useSelector((state: RootState) => state.user.userToken);
 
   const dispatch = useDispatch();
 
@@ -25,13 +23,12 @@ export default function ProfileScreen() {
 
   useEffect(() => {
    getProfileData();
-  });
+  }, [username]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>ProfileScreen</Text>
-      <Text>{email || 'No email'}</Text>
-      <Text>{username || 'No username'}</Text>
+      <Text>{username || 'Loading...'}</Text>
       <Button title="getProfileData" onPress={getProfileData} />
     </View>
   );
