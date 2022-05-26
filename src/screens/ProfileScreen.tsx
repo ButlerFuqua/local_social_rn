@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userService } from '../services';
 import { setUsername } from '../features/user/userSlice';
 
-
 export default function ProfileScreen() {
 
   const userId = useSelector((state: RootState) => state.user.userId);
@@ -16,7 +15,6 @@ export default function ProfileScreen() {
   const userToken = useSelector((state: RootState) => state.user.userToken);
 
   const dispatch = useDispatch();
-
 
   const getProfileData = async () => {
    if (userId) {
@@ -28,7 +26,6 @@ export default function ProfileScreen() {
   useEffect(() => {
    getProfileData();
   });
-
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
