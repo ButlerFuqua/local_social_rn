@@ -1,19 +1,16 @@
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js'
 import { authService } from '.';
-import { apiHost, apiKey } from '../../secrets';
-import { SignInResponse } from '../@types/responses';
 
+import { supabaseClient } from '../clients';
 export class UserService {
 
-    private readonly client: SupabaseClient;
 
     constructor() {
-        this.client = createClient(apiHost, apiKey);
+
     }
 
     async getProfileData(userId: string): Promise<any> {
         try {
-            let { data, error, status } = await this.client
+            let { data, error, status } = await supabaseClient
                 .from('profiles')
                 .select()
                 .eq('id', userId)
@@ -26,7 +23,7 @@ export class UserService {
     }
 
     async setAuth(token: string){
-        this.client.auth.setAuth(token);
+        supabaseClient.auth.setAuth(token);
     }
 
     async createProfile(token: string): Promise<any> {
@@ -39,7 +36,7 @@ export class UserService {
         await this.setAuth(token);
 
         try {
-            const { data, error } = await this.client
+            const { data, error } = await supabaseClient
                 .from('profiles')
                 .insert([
                     {
