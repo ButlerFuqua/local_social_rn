@@ -9,9 +9,7 @@ export default function SettingsScreen({ navigation }:any) {
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {
-    // clear all user data
     dispatch(clearUserData());
-    // navigate to signIn screen
     navigation.replace('SignIn');
   }
 
