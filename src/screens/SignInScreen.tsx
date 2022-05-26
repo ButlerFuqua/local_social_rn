@@ -8,6 +8,8 @@ import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
 import { setToken, setEmail, } from '../features/user/userSlice'
 
+import { showAlert } from '../utils/screenUtils';
+
 export default function SignInScreen({ navigation }: any) {
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
@@ -18,19 +20,7 @@ export default function SignInScreen({ navigation }: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const showAlert = (title: string, message: string) => {
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: "Close",
-          // onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-      ]
-    );
-  }
+  
 
   useEffect(() => {
 
