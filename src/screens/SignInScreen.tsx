@@ -18,6 +18,20 @@ export default function SignInScreen({ navigation }: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const showAlert = (title: string, message: string) => {
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: "Close",
+          // onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+      ]
+    );
+  }
+
   useEffect(() => {
 
     const bootstrapSignIn = async () => {
@@ -28,11 +42,13 @@ export default function SignInScreen({ navigation }: any) {
       }
 
       // Get user data from token (nullify if there is an error, or token is invalid)
+      const { user, error } = await authService.getUserDataFromToken(userToken);
+      if(!user && error ){
+        return;
+      }
 
-      // Set user data in state
-
-      // navigate to home page
-
+      dispatch(setEmail(user?.email || null));
+      navigation.replace('Home');
 
     }
 
@@ -46,24 +62,10 @@ export default function SignInScreen({ navigation }: any) {
     setIsLoading(true);
     const { user, session, error } = await authService.signInUser('butlerfuqua+user1@gmail.com', 'password');
     if (error || !session?.access_token) {
-      Alert.alert(
-        "Trouble Signing in",
-        error?.message || `Please try again.`,
-        [
-          {
-            text: "Close",
-            // onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-        ]
-      );
+      showAlert("Trouble Signing in", error?.message || `Please try again.`);
       setIsLoading(false);
     } else {
       dispatch(setToken(session.access_token));
-      console.log('USER DATA')
-      for(let prop in user){
-        console.log(prop, (user as any)[prop])
-      }
       dispatch(setEmail(user?.email || null));
       navigation.replace('Home');
     }

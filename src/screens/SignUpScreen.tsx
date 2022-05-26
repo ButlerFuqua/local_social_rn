@@ -23,8 +23,6 @@ export default function SignUpScreen({ navigation }: any) {
           },
         ]
       );
-    } else {
-      console.log(session?.access_token);
     }
 
     setIsLoading(false);

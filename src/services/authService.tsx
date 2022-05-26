@@ -7,7 +7,7 @@ export class AuthService {
     private readonly client: SupabaseClient;
 
     constructor() {
-        this.client = createClient(apiHost,apiKey);
+        this.client = createClient(apiHost, apiKey);
     }
 
     async signInUser(email: string, password: string): Promise<SignInResponse> {
@@ -26,8 +26,8 @@ export class AuthService {
             }
         }
     }
-    
-    async signUpUser(email: string, password: string): Promise<SignInResponse>{
+
+    async signUpUser(email: string, password: string): Promise<SignInResponse> {
         try {
             const { user, session, error } = await this.client.auth.signUp({
                 email,
@@ -43,6 +43,20 @@ export class AuthService {
             }
         }
 
+    }
+
+    async getUserDataFromToken(token: string): Promise<SignInResponse> {
+        try {
+            const { user, error } = await this.client.auth.api.getUser(token)
+            return { user, error, session: null }
+        } catch (error: any) {
+            console.error(error);
+            return {
+                user: null,
+                session: null,
+                error
+            }
+        }
     }
 
 
