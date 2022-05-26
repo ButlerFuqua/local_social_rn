@@ -65,6 +65,7 @@ export default function SignInScreen({ navigation }: any) {
       showAlert("Trouble Signing in", error?.message || `Please try again.`);
       setIsLoading(false);
     } else {
+      // TODO change this to save to storage, not state management
       dispatch(setToken(session.access_token));
       dispatch(setEmail(user?.email || null));
       navigation.replace('Home');
