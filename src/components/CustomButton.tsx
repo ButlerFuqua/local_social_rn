@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, } from 'react-native';
 
 
-export default function SignUpScreen({ action, color, backgroundColor, text }: any) {
+export default function CustomButton({ action, color, backgroundColor, text }: any) {
 
     const buttonStyles = {
         ...styles.button,

@@ -10,6 +10,7 @@ import { setToken, setEmail, setUserId} from '../../features/user/userSlice'
 
 import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
+import CustomTextInput from '../../components/CustomTextInput';
 
 export default function SignInScreen({ navigation }: any) {
 
@@ -65,19 +66,17 @@ export default function SignInScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-    <TextInput
-        placeholder="email"
-        value={email}
-        onChangeText={setLocalEmail}
-        style={styles.input}
-      />
-      <TextInput
+        <CustomTextInput 
+          placeholder="email"
+          value={email}
+          onChangeText={setLocalEmail}
+        />
+        <CustomTextInput 
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
+        secureTextEntry={true}
+        />
       
       <View style={styles.divider}></View>
 
@@ -105,11 +104,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
-  input: {
-    backgroundColor: '#fefefe',
-    borderRadius: 50,
-    marginBottom: 5,
-    elevation: 5,
-    padding: 10
-  }
 })
