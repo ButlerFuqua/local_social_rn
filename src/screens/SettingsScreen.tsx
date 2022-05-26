@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Button, Text, View } from 'react-native';
 
-import { setToken, } from '../features/user/userSlice'
+import { clearUserData } from '../features/user/userSlice'
+import { useDispatch } from 'react-redux';
 
 export default function SettingsScreen({ navigation }:any) {
 
+  const dispatch = useDispatch();
+
   const handleSignOut = async () => {
     // clear all user data
-    setToken(null);
+    dispatch(clearUserData());
     // navigate to signIn screen
     navigation.replace('SignIn');
   }

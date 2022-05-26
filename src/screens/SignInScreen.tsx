@@ -6,11 +6,12 @@ import { authService, storageService } from '../services';
 
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
-import { setToken, } from '../features/user/userSlice'
+import { setToken, setEmail, } from '../features/user/userSlice'
 
 export default function SignInScreen({ navigation }: any) {
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
+  const dispatch = useDispatch();
 
 
   const [isLoading, setIsLoading] = useState(true);
@@ -29,10 +30,10 @@ export default function SignInScreen({ navigation }: any) {
       // Get user data from token (nullify if there is an error, or token is invalid)
 
       // Set user data in state
-      
+
       // navigate to home page
 
-      
+
     }
 
     bootstrapSignIn();
@@ -58,7 +59,12 @@ export default function SignInScreen({ navigation }: any) {
       );
       setIsLoading(false);
     } else {
-      setToken(session.access_token);
+      dispatch(setToken(session.access_token));
+      console.log('USER DATA')
+      for(let prop in user){
+        console.log(prop, (user as any)[prop])
+      }
+      dispatch(setEmail(user?.email || null));
       navigation.replace('Home');
     }
   }
