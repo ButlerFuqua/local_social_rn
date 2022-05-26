@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from '../screens/HomeScreen';
-import SignInScreen from '../screens/startup/SignInScreen';
-import SplashScreen from '../screens/startup/SplashScreen';
-import ResetPasswordScreen from '../screens/startup/ResetPasswordScreen';
-import ProfileScreen from '../screens/user/ProfileScreen';
-import SignUpScreen from '../screens/startup/SignUpScreen';
+import HomeNavigator from './HomeNavigator';
+import SignInScreen from './startup/SignInScreen';
+import SplashScreen from './startup/SplashScreen';
+import ResetPasswordScreen from './startup/ResetPasswordScreen';
+import ProfileScreen from './user/ProfileScreen';
+import SignUpScreen from './startup/SignUpScreen';
 import { storageService } from '../services';
 
 import { RootState } from '../../store'
@@ -16,7 +16,7 @@ import { setToken, } from '../features/user/userSlice'
 
 const Stack = createNativeStackNavigator();
 
-export default function Navigator() {
+export default function ParentNavigator() {
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
 
@@ -54,7 +54,7 @@ export default function Navigator() {
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{
           headerShown: false,
         }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{
+        <Stack.Screen name="Home" component={HomeNavigator} options={{
           headerShown: false,
         }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />

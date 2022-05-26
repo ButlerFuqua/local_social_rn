@@ -19,14 +19,14 @@ function HomeScreen() {
 
 const Stack = createNativeStackNavigator();
 
-import Navigator from './src/navigation';
+import ParentNavigator from './src/screens/ParentNavigator';
 
 function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
       <StatusBar />
-      <Navigator />
+      <ParentNavigator />
     </SafeAreaProvider>
     </Provider>
   );

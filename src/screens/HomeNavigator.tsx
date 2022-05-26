@@ -5,7 +5,7 @@ import BulletinNavigator from './bulletin/BulletinNavigator';
 import ProfileScreen from './user/ProfileScreen';
 import SettingsScreen from './user/SettingsScreen';
 
-export default function HomeScreen({ navigation }: any) {
+export default function HomeNavigator({ navigation }: any) {
 
   const Drawer = createDrawerNavigator();
 
