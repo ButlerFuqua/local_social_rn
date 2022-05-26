@@ -3,11 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomTextArea from '../../components/CustomTextArea';
+import { postService } from '../../services';
+
+import { RootState } from '../../../store'
+import { useSelector } from 'react-redux';
 
 export default function CreatePostScreen(props: any) {
   const isFocused = useIsFocused();
 
+  const userToken = useSelector((state: RootState) => state.user.userToken);
+
+
   const [postBody, setPostBody] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // TO clear the post when navigating away from the screen
@@ -15,7 +23,21 @@ export default function CreatePostScreen(props: any) {
   }, [props, isFocused])
 
   const handleCreatePost = async () => {
-    console.log(postBody)
+    setIsLoading(true);
+    if(!userToken){
+      return props.navigation.replace('SignIn');
+    }
+    const response = await postService.createPost(userToken, postBody);
+    console.log('response', response);
+    setIsLoading(false);
+  }
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    )
   }
 
   return (

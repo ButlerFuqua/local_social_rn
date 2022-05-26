@@ -11,6 +11,7 @@ import { setToken, setEmail, setUserId} from '../../features/user/userSlice'
 import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput';
+import { supabaseClient } from '../../clients';
 
 export default function SignInScreen({ navigation }: any) {
 
@@ -35,6 +36,7 @@ export default function SignInScreen({ navigation }: any) {
       }
       dispatch(setEmail(user?.email || null));
       dispatch(setUserId(user?.id || null));
+      supabaseClient.auth.setAuth(userToken);
       navigation.replace('Home');
     }
 
@@ -52,6 +54,7 @@ export default function SignInScreen({ navigation }: any) {
       dispatch(setToken(session.access_token));
       dispatch(setEmail(user?.email || null));
       dispatch(setUserId(user?.id || null));
+      supabaseClient.auth.setAuth(session.access_token);
       navigation.replace('Home');
     }
   }

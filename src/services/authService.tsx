@@ -16,7 +16,7 @@ export class AuthService {
                 password,
             });
             if(session?.access_token){
-                await userService.setAuth(session.access_token);
+                await supabaseClient.auth.setAuth(session.access_token);
             }
             return { user, session, error }
         } catch (error: any) {

@@ -22,18 +22,12 @@ export class UserService {
         }
     }
 
-    async setAuth(token: string){
-        supabaseClient.auth.setAuth(token);
-    }
-
     async createProfile(token: string): Promise<any> {
 
         const { user } = await authService.getUserDataFromToken(token);
         if(!user){
             throw new Error('No user found');
         }
-
-        await this.setAuth(token);
 
         try {
             const { data, error } = await supabaseClient

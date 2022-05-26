@@ -8,6 +8,7 @@ import { setToken, setEmail, setUsername, } from '../../features/user/userSlice'
 
 import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
+import { supabaseClient } from '../../clients';
 
 export default function SignUpScreen({ navigation }: any) {
 
@@ -30,6 +31,7 @@ export default function SignUpScreen({ navigation }: any) {
       dispatch(setEmail(user.email || null));
       dispatch(setUsername(user.email || null));
       dispatch(setToken(session.access_token));
+      supabaseClient.auth.setAuth(session.access_token);
       navigation.replace('Home');
     } else {
       showAlert("Trouble Creating Account", `Please try again.`);
