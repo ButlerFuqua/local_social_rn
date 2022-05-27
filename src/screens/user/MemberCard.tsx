@@ -1,39 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { userService } from '../../services';
-import { PostResponse } from '../../services/postService';
+import { ProfileResponse } from '../../services/userService';
 
-type PostProps = {
-    post: PostResponse,
+type MemberCardProps = {
+    member: ProfileResponse,
 }
 
+export default function MemberCard({ member }: MemberCardProps) {
 
-// TODO all I did was copy from BulletinPost and change the function name
+    const [avatar, setAvatar] = useState(null);
 
-export default function MemberCard({ post }: PostProps) {
-
-    const { user_id, body } = post;
-
-    const [author, setAuthor] = useState(null);
-
-    const getAuthor = async () => {
-        const { data, error } = await userService.getUsername(user_id);
-        if(data.username){
-            setAuthor(data.username)
-        }
+    const getAvatar = async () => {
+        // todo get and set profile pic
     }
 
     useEffect(() => {
-        getAuthor();
-    },[post]);
+        getAvatar();
+        console.log('ran useEffect')
+    },[member]);
+
+    const { username } = member;
 
     return (
         <View style={styles.container}>
-            <Text style={styles.author}>{author || 'Who said dis???'}</Text>
-            <Text style={styles.body}>{body}</Text>
-            <View style={styles.meta}>
-                <Text>Comments (0)</Text>
-            </View>
+            <Text style={styles.username}>{username}</Text>
         </View>
     );
 }
@@ -45,15 +35,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 5,
     },
-    author: {
+    username: {
         fontSize: 15,
         marginBottom: 5,
     },
-    body: {
-        color: '#000000',
-        fontSize: 16,
-    },
-    meta:{
-        marginTop: 5
-    }
 })

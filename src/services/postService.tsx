@@ -1,6 +1,7 @@
 import {  User } from '@supabase/supabase-js'
 import { authService } from '.';
 import { SignInResponse } from '../@types/responses';
+import { SearchOptions } from '../@types/util';
 
 import { supabaseClient } from '../clients';
 
@@ -18,11 +19,6 @@ export type AllPostsResponse = {
 export type CreatePostResponse = {
     data: any
     error: any
-}
-
-export type Range = {
-    from: number
-    to: number
 }
 export class PostService {
 
@@ -47,9 +43,10 @@ export class PostService {
         }
     }
 
-    async getAllPosts(limit = 10, range?: Range): Promise<AllPostsResponse>{
-        const from = range?.from || 0;
-        const to =  range?.to || 10;
+    async getAllPosts(options?: SearchOptions): Promise<AllPostsResponse>{
+        const limit = options?.limit || 10;
+        const from = options?.from || 0;
+        const to =  options?.to || 10;
         try {
             let { data, error } = await supabaseClient
                 .from('posts')

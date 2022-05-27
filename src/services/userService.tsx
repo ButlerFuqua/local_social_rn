@@ -1,8 +1,17 @@
 import { authService } from '.';
+import { SearchOptions } from '../@types/util';
 
 import { supabaseClient } from '../clients';
-export class UserService {
 
+export type ProfileResponse = {
+    username: string
+}
+
+export type AllProfilesResponse = {
+    data: ProfileResponse[]
+    error: any
+}
+export class UserService {
 
     constructor() {
 
@@ -55,6 +64,25 @@ export class UserService {
             return { data, error }
         } catch (error) {
             return error
+        }
+    }
+
+    async getAllProfiles(options?: SearchOptions): Promise<AllProfilesResponse>{
+        const limit = options?.limit || 10;
+        const from = options?.from || 0;
+        const to =  options?.to || 10;
+        try {
+            let { data, error } = await supabaseClient
+                .from('profiles')
+                .select()
+                .range(from, to)
+                .limit(limit)
+            return { data: data || [], error }
+        } catch (error) {
+            return {
+                data: [],
+                error,
+            }
         }
     }
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomButton from '../../components/CustomButton';
+import LoadingScreen from '../../components/LaodingScreen';
 import { postService } from '../../services';
 import { showAlert } from '../../utils/screenUtils';
 
@@ -37,7 +38,7 @@ export default function PostFeedScreen(props: any) {
     setIsLoadingMorePosts(true);
 
     // TODO replace will call to posts api
-    const { data, error } = await postService.getAllPosts(10, {
+    const { data, error } = await postService.getAllPosts({
       from: posts.length,
       to: posts.length + 10
     });
@@ -51,11 +52,7 @@ export default function PostFeedScreen(props: any) {
   }
 
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return <LoadingScreen />
   }
 
   return (
@@ -71,7 +68,6 @@ export default function PostFeedScreen(props: any) {
         text={!isLoadingMorePosts ? "Load More Posts" : "Loading..."}
         action={loadMorePosts}
       />
-
 
       <View style={{ marginBottom: 100 }}></View>
     </ScrollView>

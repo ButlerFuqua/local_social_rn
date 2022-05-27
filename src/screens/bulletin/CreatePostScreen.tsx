@@ -8,6 +8,7 @@ import { postService } from '../../services';
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux';
 import { showAlert } from '../../utils/screenUtils';
+import LoadingScreen from '../../components/LaodingScreen';
 
 export default function CreatePostScreen(props: any) {
   const isFocused = useIsFocused();
@@ -38,11 +39,7 @@ export default function CreatePostScreen(props: any) {
   }
 
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return <LoadingScreen />
   }
 
   return (

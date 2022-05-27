@@ -12,6 +12,7 @@ import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput';
 import { supabaseClient } from '../../clients';
+import LoadingScreen from '../../components/LaodingScreen';
 
 export default function SignInScreen({ navigation }: any) {
 
@@ -60,11 +61,7 @@ export default function SignInScreen({ navigation }: any) {
   }
 
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return <LoadingScreen />
   }
 
   return (

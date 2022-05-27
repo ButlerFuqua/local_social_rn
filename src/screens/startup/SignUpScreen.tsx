@@ -9,6 +9,7 @@ import { setToken, setEmail, setUsername, } from '../../features/user/userSlice'
 import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
 import { supabaseClient } from '../../clients';
+import LoadingScreen from '../../components/LaodingScreen';
 
 export default function SignUpScreen({ navigation }: any) {
 
@@ -41,11 +42,7 @@ export default function SignUpScreen({ navigation }: any) {
   }
 
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return <LoadingScreen />
   }
 
 
