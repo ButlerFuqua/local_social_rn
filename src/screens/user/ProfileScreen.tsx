@@ -13,7 +13,6 @@ export default function ProfileScreen({navigation, route}: any) {
 
   const {userId} = route.params;
 
-
   const currentUserId = useSelector((state: RootState) => state.user.userId);
   if(!currentUserId){
     showAlert('Error', 'Please try again');
