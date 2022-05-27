@@ -1,35 +1,72 @@
-import React, { useEffect } from 'react';
-import { Button, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { RootState } from '../../../store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { userService } from '../../services';
-import { setUsername } from '../../features/user/userSlice';
+import { showAlert } from '../../utils/screenUtils';
+import { useIsFocused } from '@react-navigation/native';
+import LoadingScreen from '../../components/LaodingScreen';
 
-export default function ProfileScreen() {
+type ProfileScreenProps = {
+  userId: string
+  navigation: any
+}
 
-  const userId = useSelector((state: RootState) => state.user.userId);
-  const username = useSelector((state: RootState) => state.user.username);
+export default function ProfileScreen({navigation, userId}: ProfileScreenProps) {
 
-  const dispatch = useDispatch();
+  const currentUserId = useSelector((state: RootState) => state.user.userId);
+  if(!currentUserId){
+    showAlert('Error', 'Please try again');
+    return navigation.replace('Home');
+  }
+  const isFocused = useIsFocused();
+
+  const [username, setUsername] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const getProfileData = async () => {
-   if (userId) {
-     const {data} = await userService.getProfileData(userId);
-     dispatch(setUsername(data.username))
-   }
+
+    setIsLoading(true);
+
+     const {data, error} = await userService.getProfileData(userId || currentUserId);
+     if(error || !data){
+      showAlert('Error fetching profile', error.message || 'Please try again');
+      navigation.replace('Home');
+      return
+     }
+
+     const { username } = data;
+     setUsername(username);
+
+     setIsLoading(false);
+
   }
 
   useEffect(() => {
    getProfileData();
-  }, [username]);
+  }, [isFocused]);
+
+  if(isLoading){
+    return <LoadingScreen />
+  }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>ProfileScreen</Text>
-      <Text>{username || 'Loading...'}</Text>
-      <Button title="getProfileData" onPress={getProfileData} />
+    <View style={styles.container}>
+      <Text style={styles.username}>{username || 'Loading...'}</Text>
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+  },
+  username: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+})

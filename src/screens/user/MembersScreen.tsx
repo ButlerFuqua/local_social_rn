@@ -12,6 +12,8 @@ import MemberCard from './MemberCard';
 export default function MembersScreen(props: any) {
     const isFocused = useIsFocused();
 
+    const { navigation } = props;
+
     const [members, setMembers]: any = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMoreMembers, setIsLoadingMoreMembers] = useState(false);
@@ -58,6 +60,9 @@ export default function MembersScreen(props: any) {
                     <MemberCard
                         key={idx}
                         member={member}
+                        navigateToProfile={() => {
+                            navigation.navigate('Profile', {username: member.username})
+                        }}
                     />
                 ))
             }

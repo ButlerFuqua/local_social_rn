@@ -11,23 +11,30 @@ export type AllProfilesResponse = {
     data: ProfileResponse[]
     error: any
 }
+
+export type ProfileDataResponse = {
+    data?: ProfileResponse
+    error: any
+}
+
 export class UserService {
 
     constructor() {
 
     }
 
-    async getProfileData(userId: string): Promise<any> {
+    async getProfileData(userId: string): Promise<ProfileDataResponse> {
         try {
-            let { data, error, status } = await supabaseClient
+            let { data, error } = await supabaseClient
                 .from('profiles')
                 .select()
                 .eq('id', userId)
                 .single()
-
-            return { data, error, status }
+            return { data, error }
         } catch (error) {
-            return error
+            return {
+                error,
+            }
         }
     }
 
