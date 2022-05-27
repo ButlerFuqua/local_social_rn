@@ -5,6 +5,7 @@ import { supabaseClient } from '../clients';
 
 export type ProfileResponse = {
     username: string
+    id: string
 }
 
 export type AllProfilesResponse = {
@@ -83,6 +84,7 @@ export class UserService {
                 .from('profiles')
                 .select()
                 .range(from, to)
+                .order('username', { ascending: true })
                 .limit(limit)
             return { data: data || [], error }
         } catch (error) {

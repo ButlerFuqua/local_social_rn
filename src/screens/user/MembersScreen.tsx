@@ -61,7 +61,7 @@ export default function MembersScreen(props: any) {
                         key={idx}
                         member={member}
                         navigateToProfile={() => {
-                            navigation.navigate('Profile', {username: member.username})
+                            navigation.navigate('Profile', {userId: member.id})
                         }}
                     />
                 ))

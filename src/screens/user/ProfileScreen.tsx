@@ -9,12 +9,10 @@ import { showAlert } from '../../utils/screenUtils';
 import { useIsFocused } from '@react-navigation/native';
 import LoadingScreen from '../../components/LaodingScreen';
 
-type ProfileScreenProps = {
-  userId: string
-  navigation: any
-}
+export default function ProfileScreen({navigation, route}: any) {
 
-export default function ProfileScreen({navigation, userId}: ProfileScreenProps) {
+  const {userId} = route.params;
+
 
   const currentUserId = useSelector((state: RootState) => state.user.userId);
   if(!currentUserId){
