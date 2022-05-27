@@ -18,7 +18,9 @@ export default function HomeNavigator({ navigation }: any) {
   return (
       <Drawer.Navigator initialRouteName="Bulletin">
         <Drawer.Screen name="Bulletin" component={BulletinNavigator} />
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="MyProfile" component={ProfileScreen} initialParams={{userId}} options={{
+          title: "Profile"
+        }} />
         <Drawer.Screen name="Members" component={MembersScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>

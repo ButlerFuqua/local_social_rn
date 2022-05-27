@@ -45,6 +45,7 @@ export default function ParentNavigator() {
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
             // animationTypeForReplace: isSignout ? 'pop' : 'push',
+            // animationTypeForReplace: 'pop',
             headerShown: false,
           }}
         />
