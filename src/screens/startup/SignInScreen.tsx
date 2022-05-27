@@ -20,8 +20,8 @@ export default function SignInScreen({ navigation }: any) {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [email, setLocalEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setLocalEmail] = useState('butlerfuqua+user@gmail.com');
+  const [password, setPassword] = useState('password');
 
   useEffect(() => {
     const bootstrapSignIn = async () => {
@@ -46,7 +46,7 @@ export default function SignInScreen({ navigation }: any) {
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    const { user, session, error } = await authService.signInUser('butlerfuqua+user@gmail.com', 'password');
+    const { user, session, error } = await authService.signInUser(email, password);
     if (error || !session?.access_token) {
       showAlert("Trouble Signing in", error?.message || `Please try again.`);
       setIsLoading(false);
