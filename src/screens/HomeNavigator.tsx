@@ -10,7 +10,7 @@ export default function HomeNavigator({ navigation }: any) {
   const Drawer = createDrawerNavigator();
 
   return (
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator initialRouteName="Bulletin">
         <Drawer.Screen name="Bulletin" component={BulletinNavigator} />
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />

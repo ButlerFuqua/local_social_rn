@@ -24,7 +24,7 @@ export default function BulletinNavigator() {
         height: 50,
       }
     }}>
-      <Tab.Screen name="Posts" component={PostFeedScreen} options={{
+      <Tab.Screen name="PostFeed" component={PostFeedScreen} options={{
         headerShown: false,
         tabBarIcon: ({focused}: any) => {
           return (

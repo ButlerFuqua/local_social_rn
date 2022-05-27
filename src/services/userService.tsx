@@ -44,4 +44,18 @@ export class UserService {
         }
     }
 
+    async getUsername(userId: string): Promise<any>{
+        try {
+
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .select('username')
+                .eq('id', userId)
+                .single()
+            return { data, error }
+        } catch (error) {
+            return error
+        }
+    }
+
 }

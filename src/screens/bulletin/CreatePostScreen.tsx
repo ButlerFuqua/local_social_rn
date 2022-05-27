@@ -7,6 +7,7 @@ import { postService } from '../../services';
 
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux';
+import { showAlert } from '../../utils/screenUtils';
 
 export default function CreatePostScreen(props: any) {
   const isFocused = useIsFocused();
@@ -27,9 +28,13 @@ export default function CreatePostScreen(props: any) {
     if(!userToken){
       return props.navigation.replace('SignIn');
     }
-    const response = await postService.createPost(userToken, postBody);
-    console.log('response', response);
-    setIsLoading(false);
+    const {error} = await postService.createPost(userToken, postBody);
+    if(error){
+      showAlert('Error creating post', error.message || 'Please Try again');
+      setIsLoading(false);
+      return;
+    }
+    props.navigation.replace('Home');
   }
 
   if (isLoading) {

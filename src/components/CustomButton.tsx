@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, } from 'react-native';
 
 
-export default function CustomButton({ action, color, backgroundColor, text }: any) {
+export default function CustomButton({ action, color, backgroundColor, text, disabled }: any) {
 
     const buttonStyles = {
         ...styles.button,
@@ -17,8 +17,12 @@ export default function CustomButton({ action, color, backgroundColor, text }: a
     }
 
     return (
-        <Pressable onPress={action}>
-            <Text style={buttonStyles}>{text}</Text>
+        <Pressable onPress={action} disabled={disabled}>
+            <Text style={{
+                ...buttonStyles,
+                backgroundColor: !disabled ? 'lightseagreen' : 'lightgrey',
+                color: !disabled ? (color || '#fff') : 'grey',
+                }}>{text}</Text>
         </Pressable>
     );
 }
