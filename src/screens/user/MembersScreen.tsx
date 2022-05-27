@@ -66,11 +66,17 @@ export default function MembersScreen(props: any) {
                     />
                 ))
             }
-            <CustomButton
-                disabled={isLoadingMoreMembers}
-                text={!isLoadingMoreMembers ? "Load More" : "Loading..."}
-                action={loadMoreMembers}
-            />
+            {
+                members.length >= 10 
+                ?(
+
+                    <CustomButton
+                        disabled={isLoadingMoreMembers}
+                        text={!isLoadingMoreMembers ? "Load More" : "Loading..."}
+                        action={loadMoreMembers}
+                    />
+                ): null
+            }
             <View style={{ marginBottom: 100 }}></View>
 
         </ScrollView>

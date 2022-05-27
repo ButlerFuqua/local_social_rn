@@ -42,7 +42,7 @@ export default function PostFeedScreen(props: any) {
       from: posts.length,
       to: posts.length + 10
     });
-    if(error){
+    if (error) {
       showAlert('Error getting posts', error.message || 'Please try again');
       return
     }
@@ -60,15 +60,16 @@ export default function PostFeedScreen(props: any) {
       {posts.map((post: any) =>
         <BulletinPost key={posts.indexOf(post)} post={post} />
       )}
-      {/* <Button disabled={isLoadingMorePosts} title={!isLoadingMorePosts ? "Load More Posts" : "Loading..."} onPress={loadMorePosts} /> */}
-
-
-      <CustomButton
-        disabled={isLoadingMorePosts}
-        text={!isLoadingMorePosts ? "Load More Posts" : "Loading..."}
-        action={loadMorePosts}
-      />
-
+      {
+        posts.length >= 10
+          ? (
+            <CustomButton
+              disabled={isLoadingMorePosts}
+              text={!isLoadingMorePosts ? "Load More Posts" : "Loading..."}
+              action={loadMorePosts}
+            />
+          ) : null
+      }
       <View style={{ marginBottom: 100 }}></View>
     </ScrollView>
   );
