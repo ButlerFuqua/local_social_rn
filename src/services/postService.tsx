@@ -52,6 +52,7 @@ export class PostService {
                 .from('posts')
                 .select()
                 .range(from, to)
+                .order('created_at', { ascending: false })
                 .limit(limit)
             return { data: data || [], error }
         } catch (error) {
