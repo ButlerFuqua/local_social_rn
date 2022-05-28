@@ -6,6 +6,7 @@ import { SearchOptions } from '../@types/util';
 import { supabaseClient } from '../clients';
 
 export type PostResponse = {
+    id: string | number
     body: string
     user_id: string
     created_at: string
@@ -23,6 +24,11 @@ export type AllPostsResponse = {
 }
 
 export type CreatePostResponse = {
+    data: any
+    error: any
+}
+
+export type CommentCountResponse = {
     data: any
     error: any
 }
@@ -115,5 +121,20 @@ export class PostService {
             return error
         }
 
+    }
+
+    async getCommentCount(postId: string | number): Promise<CommentCountResponse>{
+        try {
+            const {data, error} = await supabaseClient
+            .from('comments')
+            .select('id', { count: 'exact' })
+            .eq('post_id', postId)
+            return {data, error};
+        } catch (error) {
+            return {
+                data: null,
+                error,
+            };
+        }
     }
 }

@@ -12,6 +12,7 @@ export type CommentResponse = {
     post_id: string
     user_id: string
     edited: boolean | null
+    created_at: any
 }
 
 export type AllCommentsResponse = {
@@ -48,7 +49,7 @@ export class CommentService {
             const { data, error } = await supabaseClient
             .from('comments')
             .select()
-            .order('created_at', { ascending: false })
+            .order('created_at', { ascending: true })
             .eq('post_id', postId)
             return { data: data || [], error }
         } catch (error) {

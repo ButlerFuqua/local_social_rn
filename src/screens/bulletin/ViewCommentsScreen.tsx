@@ -7,6 +7,7 @@ import LoadingScreen from '../../components/LoadingScreen'
 import { commentService, postService } from '../../services';
 import { CommentResponse } from '../../services/commentService';
 import { showAlert } from '../../utils/screenUtils';
+import CommentCard from './CommentCard';
 
 export default function ViewCommentsScreen({ route, navigation }: any) {
     const isFocused = useIsFocused();
@@ -44,31 +45,35 @@ export default function ViewCommentsScreen({ route, navigation }: any) {
             <Text style={styles.commentsTitle}>
                 Comments
             </Text>
-           <ScrollView>
-           {
-                !comments.length
-                    ? (
-                        <View style={styles.beTheFirst}>
-                            <Text style={styles.beTheFirstText}>
-                                Be the first to comment!</Text>                        
-                        </View>
-                    )
-                    : comments.map((comment: CommentResponse) => (
-                        <View>
-                            <Text>{comment.body}</Text>
-                        </View>
-                    ))
-            }
-            <View style={{marginBottom: 50}}></View>
-           </ScrollView>
-           <CustomButton
-                    text="Add Comment"
-                    action={() => {
-                        navigation.navigate('CreateComment', {
-                            post
-                        })
-                    }}
-               />
+            <ScrollView>
+                {
+                    !comments.length
+                        ? (
+                            <View style={styles.beTheFirst}>
+                                <Text style={styles.beTheFirstText}>
+                                    Be the first to comment!</Text>
+                            </View>
+                        )
+                        : comments.map((comment: CommentResponse) => (
+                            <CommentCard
+                                comment={comment}
+                                navigateToEdit={() => {
+                                    // TODO create editComment screen
+                                    console.log('go to edit comment');
+                                }}
+                            />
+                        ))
+                }
+                <View style={{ marginBottom: 50 }}></View>
+            </ScrollView>
+            <CustomButton
+                text="Add Comment"
+                action={() => {
+                    navigation.navigate('CreateComment', {
+                        post
+                    })
+                }}
+            />
         </View>
     )
 }
@@ -85,6 +90,7 @@ const styles = StyleSheet.create({
     },
     commentsTitle: {
         fontSize: 18,
+        marginBottom: 10,
     },
     beTheFirst: {
         marginTop: 5,

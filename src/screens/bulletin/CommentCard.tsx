@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { postService, userService } from '../../services';
-import { PostResponse } from '../../services/postService';
+import { userService } from '../../services';
 
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux'
+import { CommentResponse } from '../../services/commentService';
+import { useIsFocused } from '@react-navigation/native';
 
 type PostProps = {
-    post: PostResponse
+    comment: CommentResponse
     navigateToEdit: any
-    navigateToViewComments: any
 }
 
-export default function BulletinPost({ post, navigateToEdit, navigateToViewComments }: PostProps) {
+export default function CommentCard({ comment, navigateToEdit, }: PostProps) {
+
+    const isFocused = useIsFocused();
 
     const userId = useSelector((state: RootState) => state.user.userId);
 
-    const { user_id, body } = post;
+    const { user_id, body, created_at } = comment;
 
     const [author, setAuthor] = useState(null);
-    const [commentCount, setCommentCount]: any = useState(null);
 
     const getAuthor = async () => {
         const { data, error } = await userService.getUsername(user_id);
@@ -28,17 +29,9 @@ export default function BulletinPost({ post, navigateToEdit, navigateToViewComme
         }
     }
 
-    const getCommentCount = async () => {
-        const {data, error} = await postService.getCommentCount(post.id);
-        if(data && !error){
-            setCommentCount(data.length);
-        }
-    }
-
     useEffect(() => {
         getAuthor();
-        getCommentCount();
-    }, [post]);
+    }, [isFocused]);
 
     return (
         <View style={styles.container}>
@@ -46,18 +39,13 @@ export default function BulletinPost({ post, navigateToEdit, navigateToViewComme
             <Text style={styles.body}>
                 {body}
             </Text>
-            {post.edited ? (
+            {comment.edited ? (
                 <Text style={styles.edited}>
                     (edited)
                 </Text>
             ) : null}
 
             <View style={styles.meta}>
-                <Pressable onPress={navigateToViewComments}>
-                    <Text style={styles.commentButon}>Comments (
-                        {commentCount !== null ? commentCount : '???'}
-                    )</Text>
-                </Pressable>
                 {
                     user_id === userId
                         ? (
