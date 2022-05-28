@@ -7,11 +7,12 @@ import { RootState } from '../../../store'
 import { useSelector } from 'react-redux'
 
 type PostProps = {
-    post: PostResponse,
-    navigateToPost: any
+    post: PostResponse
+    navigateToEdit: any
+    navigateToViewComments: any
 }
 
-export default function BulletinPost({ post, navigateToPost }: PostProps) {
+export default function BulletinPost({ post, navigateToEdit, navigateToViewComments }: PostProps) {
 
     const userId = useSelector((state: RootState) => state.user.userId);
 
@@ -30,10 +31,6 @@ export default function BulletinPost({ post, navigateToPost }: PostProps) {
         getAuthor();
     }, [post]);
 
-    const navigateToCommentScreen = () => {
-        console.log(post)
-    }
-
     return (
         <View style={styles.container}>
             <Text style={styles.author}>{author || 'Who said dis???'}</Text>
@@ -47,13 +44,13 @@ export default function BulletinPost({ post, navigateToPost }: PostProps) {
             ) : null}
 
             <View style={styles.meta}>
-                <Pressable onPress={navigateToCommentScreen}>
+                <Pressable onPress={navigateToViewComments}>
                     <Text style={styles.commentButon}>Comments (0)</Text>
                 </Pressable>
                 {
                     user_id === userId
                         ? (
-                            <Pressable onPress={navigateToPost}>
+                            <Pressable onPress={navigateToEdit}>
                                 <Text style={styles.editButton}>Edit</Text>
                             </Pressable>
                         ) : null

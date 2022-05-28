@@ -15,6 +15,7 @@ export type Post = {
   author: string;
   body: string;
   created_at: any;
+  edited: boolean | null
 }
 
 export default function PostFeedScreen({ navigation }: any) {
@@ -61,12 +62,22 @@ export default function PostFeedScreen({ navigation }: any) {
   return (
     <ScrollView style={{ flex: 1, padding: 15, }}>
       {posts.map((post: Post) =>
-        <BulletinPost key={posts.indexOf(post)} post={post} navigateToPost={() =>{
+        <BulletinPost 
+        key={posts.indexOf(post)} 
+        post={post} 
+        navigateToEdit={() =>{
           navigation.navigate('EditPost', {
             postId: post.id,
             postUserId: post.user_id
           });
-        }} />
+        }} 
+        navigateToViewComments={() =>{
+          navigation.navigate('ViewComments', {
+            postId: post.id,
+            postUserId: post.user_id
+          });
+        }} 
+        />
       )}
       {
         posts.length >= 10
