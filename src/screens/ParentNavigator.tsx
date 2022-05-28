@@ -13,6 +13,7 @@ import { storageService } from '../services';
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
 import { setToken, } from '../features/user/userSlice'
+import EditPostScreen from './bulletin/EditPostScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ export default function ParentNavigator() {
           headerShown: false,
         }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="EditPost" component={EditPostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
