@@ -13,7 +13,8 @@ import LoadingScreen from '../../components/LaodingScreen';
 type EditPostScreenProps = {
   route: {
     params: {
-      postId: string
+      postId: string | number
+      postUserId: string
     }
   },
   navigation: any,
@@ -23,45 +24,52 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
   const isFocused = useIsFocused();
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
-  const userId = useSelector((state: RootState) => state.user.userId);
 
-  const { params: { postId } } = route;
+  const { params: { postId, postUserId } } = route;
 
-  if(!postId){
-    showAlert('Error getting post', 'Please try again');
-    navigation.replace('Home');
-    return;
+  const [isLoading, setIsLoading] = useState(true);
+  const [postBody, setPostBody] = useState('');
+
+  const getPost = async () => {
+    setIsLoading(true);
+
+    const { data, error } = await postService.getPostById(postId);
+    if(!data || error){
+      showAlert('Error fetching post', error?.message || 'Please try again');
+      return navigation.navigate('Home');
+    }
+
+    const { body, created_at } = data;
+    setPostBody(body);
+
+    setIsLoading(false);
   }
 
-  const [postBody, setPostBody] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
-    // TO clear the post when navigating away from the screen
-    setPostBody('');
-  }, [isFocused])
+    getPost();
+  }, [isFocused]);
 
-  const handleCreatePost = async () => {
+  if (isLoading) {
+    return <LoadingScreen />
+  }
+
+  const handleUpdatePost = async () => {
     setIsLoading(true);
     if(!userToken){
       return navigation.replace('SignIn');
     }
-    const {error} = await postService.createPost(userToken, postBody);
+    const {error} = await postService.updatePost(userToken, postId, postBody);
     if(error){
-      showAlert('Error creating post', error.message || 'Please Try again');
+      showAlert('Error updating post', error.message || 'Please Try again');
       setIsLoading(false);
       return;
     }
     navigation.replace('Home');
   }
 
-  if (isLoading) {
-    return <LoadingScreen />
-  }
-
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Create post</Text>
+      <Text style={styles.title}>Edit post</Text>
       <View style={{ marginBottom: 20 }}></View>
       <CustomTextArea
         customStyles={styles.textArea}
@@ -73,7 +81,7 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
 
       <CustomButton
         text="Submit"
-        action={handleCreatePost}
+        action={handleUpdatePost}
       />
       <View style={{ marginBottom: 100 }}></View>
     </ScrollView>
