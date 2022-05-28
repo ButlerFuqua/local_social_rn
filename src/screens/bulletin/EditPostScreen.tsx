@@ -29,9 +29,14 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
 
   const [isLoading, setIsLoading] = useState(true);
   const [postBody, setPostBody] = useState('');
+  const [areYouSureDelete, setAreYouSureDelete] = useState(false);
 
   const getPost = async () => {
     setIsLoading(true);
+
+    if(!userToken){
+      return navigation.replace('Home');
+    }
 
     const { data, error } = await postService.getPostById(postId);
     if(!data || error){
@@ -67,8 +72,23 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
     navigation.replace('Home');
   }
 
+  const handleDeletePost = async () => {
+    setIsLoading(true);
+    if(!userToken){
+      return navigation.replace('SignIn');
+    }
+    const error = await postService.deletePost(postId);
+    if(error){
+      showAlert('Error deleting post', error?.message || 'Please Try again');
+      setIsLoading(false);
+      return;
+    }
+    navigation.replace('Home');
+  }
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.wrapper}>
+      <ScrollView style={styles.container}>
       <Text style={styles.title}>Edit post</Text>
       <View style={{ marginBottom: 20 }}></View>
       <CustomTextArea
@@ -85,10 +105,42 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
       />
       <View style={{ marginBottom: 100 }}></View>
     </ScrollView>
+    {
+      !areYouSureDelete
+      ? (
+        <CustomButton
+          text="Delete"
+          action={() => setAreYouSureDelete(true)}
+          backgroundColor="coral"
+        />
+        
+        )
+        : (
+          <View style={styles.deleteContainer}>
+            <Text style={styles.areYouSure}>
+              Are you sure?
+            </Text>
+            <CustomButton
+              text="Delete forever"
+              action={handleDeletePost}
+              backgroundColor="tomato"
+            />
+          <CustomButton
+            text="Cancel"
+            action={() => setAreYouSureDelete(false)}
+          />
+
+        </View>
+      )
+    }
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper:{
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 15
@@ -102,5 +154,14 @@ const styles = StyleSheet.create({
   textArea: {
     width: '95%',
     alignSelf: 'center',
+  },
+  deleteContainer: {
+    padding: 30
+  },
+  areYouSure: {
+    textAlign: 'center',
+    marginBottom: 5,
+    fontSize: 18,
+    color: 'red'
   }
 });

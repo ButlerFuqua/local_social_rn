@@ -103,4 +103,17 @@ export class PostService {
             return {data: null, error}
         }
     }
+    
+    async deletePost(postId: string | number): Promise<any>{
+        try {
+            const { error } = await supabaseClient
+            .from('posts')
+            .delete()
+            .match({ id: postId })
+            return error
+        } catch (error) {
+            return error
+        }
+
+    }
 }
