@@ -9,7 +9,7 @@ import { setToken, setEmail, setUsername, } from '../../features/user/userSlice'
 import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
 import { supabaseClient } from '../../clients';
-import LoadingScreen from '../../components/LaodingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 export default function SignUpScreen({ navigation }: any) {
 

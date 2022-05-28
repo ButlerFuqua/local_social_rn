@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomButton from '../../components/CustomButton';
-import LoadingScreen from '../../components/LaodingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 import { postService } from '../../services';
 import { showAlert } from '../../utils/screenUtils';
 

@@ -12,7 +12,7 @@ import { showAlert } from '../../utils/screenUtils';
 import CustomButton from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomTextInput';
 import { supabaseClient } from '../../clients';
-import LoadingScreen from '../../components/LaodingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 export default function SignInScreen({ navigation }: any) {
 

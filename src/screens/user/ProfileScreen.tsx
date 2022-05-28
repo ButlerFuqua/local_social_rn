@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { userService } from '../../services';
 import { showAlert } from '../../utils/screenUtils';
 import { useIsFocused } from '@react-navigation/native';
-import LoadingScreen from '../../components/LaodingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 export default function ProfileScreen({navigation, route}: any) {
 

@@ -8,7 +8,7 @@ import { postService } from '../../services';
 import { RootState } from '../../../store'
 import { useSelector } from 'react-redux';
 import { showAlert } from '../../utils/screenUtils';
-import LoadingScreen from '../../components/LaodingScreen';
+import LoadingScreen from '../../components/LoadingScreen';
 
 type EditPostScreenProps = {
   route: {
