@@ -9,6 +9,12 @@ export type PostResponse = {
     body: string
     user_id: string
     created_at: string
+    edited: boolean | null
+}
+
+export type SinglePostResponse = {
+    data: PostResponse | null
+    error: any
 }
 
 export type AllPostsResponse = {
@@ -42,18 +48,18 @@ export class PostService {
             return {data: null, error}
         }
     }
-
+    
     async getAllPosts(options?: SearchOptions): Promise<AllPostsResponse>{
         const limit = options?.limit || 10;
         const from = options?.from || 0;
         const to =  options?.to || 10;
         try {
             let { data, error } = await supabaseClient
-                .from('posts')
-                .select()
-                .range(from, to)
-                .order('created_at', { ascending: false })
-                .limit(limit)
+            .from('posts')
+            .select()
+            .range(from, to)
+            .order('created_at', { ascending: false })
+            .limit(limit)
             return { data: data || [], error }
         } catch (error) {
             return {
@@ -62,5 +68,39 @@ export class PostService {
             }
         }
     }
-
+    
+    async getPostById(id: string | number): Promise<SinglePostResponse>{
+        try {
+            let { data, error } = await supabaseClient
+            .from('posts')
+            .select()
+            .eq('id',id)
+            .single()
+            return { data, error }
+        } catch (error) {
+            return {
+                data: null,
+                error,
+            }
+        }
+    }
+    
+    async updatePost(token: string, postId: string | number, body: string): Promise<CreatePostResponse>{
+        const { user } = await authService.getUserDataFromToken(token);
+        if(!user){
+            throw new Error('No user found');
+        }
+        try {
+            const { data, error } = await supabaseClient
+                .from('posts')
+                .update([{
+                    body,
+                    edited: true,
+                }])
+                .match({ id: postId });
+            return { data, error }
+        } catch (error) {
+            return {data: null, error}
+        }
+    }
 }

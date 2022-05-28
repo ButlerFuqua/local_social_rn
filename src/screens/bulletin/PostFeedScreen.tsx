@@ -10,11 +10,14 @@ import { showAlert } from '../../utils/screenUtils';
 import BulletinPost from './BulletinPost';
 
 export type Post = {
+  user_id: string;
+  id: string;
   author: string;
   body: string;
+  created_at: any;
 }
 
-export default function PostFeedScreen(props: any) {
+export default function PostFeedScreen({ navigation }: any) {
   const isFocused = useIsFocused();
 
   const [posts, setPosts]: any = useState([]);
@@ -32,7 +35,7 @@ export default function PostFeedScreen(props: any) {
   }
   useEffect(() => {
     getPosts();
-  }, [props, isFocused]);
+  }, [isFocused]);
 
   const loadMorePosts = async () => {
     setIsLoadingMorePosts(true);
@@ -57,8 +60,13 @@ export default function PostFeedScreen(props: any) {
 
   return (
     <ScrollView style={{ flex: 1, padding: 15, }}>
-      {posts.map((post: any) =>
-        <BulletinPost key={posts.indexOf(post)} post={post} />
+      {posts.map((post: Post) =>
+        <BulletinPost key={posts.indexOf(post)} post={post} navigateToPost={() =>{
+          navigation.navigate('EditPost', {
+            postId: post.id,
+            postUserId: post.user_id
+          });
+        }} />
       )}
       {
         posts.length >= 10
