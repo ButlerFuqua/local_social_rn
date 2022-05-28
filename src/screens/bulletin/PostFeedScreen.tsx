@@ -73,8 +73,7 @@ export default function PostFeedScreen({ navigation }: any) {
         }} 
         navigateToViewComments={() =>{
           navigation.navigate('ViewComments', {
-            postId: post.id,
-            postUserId: post.user_id
+            post
           });
         }} 
         />

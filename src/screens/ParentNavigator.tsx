@@ -62,7 +62,9 @@ export default function ParentNavigator() {
         }} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="EditPost" component={EditPostScreen} />
-        <Stack.Screen name="ViewComments" component={ViewCommentsScreen} />
+        <Stack.Screen name="ViewComments" component={ViewCommentsScreen} options={{
+          title: 'Comments'
+        }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -6,6 +6,18 @@ export type CreateCommentResponse = {
     data: any
     error: any
 }
+
+export type CommentResponse = {
+    body: string
+    post_id: string
+    user_id: string
+}
+
+export type AllCommentsResponse = {
+    data: CommentResponse[]
+    error: any
+}
+
 export class CommentService {
 
     constructor() {
@@ -30,25 +42,13 @@ export class CommentService {
         }
     }
     
-    // TODO create response type
-    async getPostAndComments(postId: string | number): Promise<any>{
+    async getCommentsByPostId(postId: string | number): Promise<AllCommentsResponse>{
         try {
-            let { data, error } = await supabaseClient
-            .from('posts')
-            .select(`
-                body,
-                user_id,
-                created_at
-                comments (
-                    body,
-                    author,
-                    user_id,
-                    created_at
-                )
-            `)
+            const { data, error } = await supabaseClient
+            .from('comments')
+            .select()
             .order('created_at', { ascending: false })
             .eq('post_id', postId)
-            .single()
             return { data: data || [], error }
         } catch (error) {
             return {
