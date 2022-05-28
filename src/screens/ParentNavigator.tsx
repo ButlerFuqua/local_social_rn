@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setToken, } from '../features/user/userSlice'
 import EditPostScreen from './bulletin/EditPostScreen';
 import ViewCommentsScreen from './bulletin/ViewCommentsScreen';
+import CreateCommentScreen from './bulletin/CreateCommentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,9 @@ export default function ParentNavigator() {
         <Stack.Screen name="EditPost" component={EditPostScreen} />
         <Stack.Screen name="ViewComments" component={ViewCommentsScreen} options={{
           title: 'Comments'
+        }} />
+        <Stack.Screen name="CreateComment" component={CreateCommentScreen} options={{
+          title: 'Create Comment'
         }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -11,6 +11,7 @@ export type CommentResponse = {
     body: string
     post_id: string
     user_id: string
+    edited: boolean | null
 }
 
 export type AllCommentsResponse = {

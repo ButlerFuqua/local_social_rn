@@ -63,6 +63,11 @@ export default function ViewCommentsScreen({ route, navigation }: any) {
            </ScrollView>
            <CustomButton
                     text="Add Comment"
+                    action={() => {
+                        navigation.navigate('CreateComment', {
+                            post
+                        })
+                    }}
                />
         </View>
     )
