@@ -16,6 +16,7 @@ import { setToken, } from '../features/user/userSlice'
 import EditPostScreen from './bulletin/EditPostScreen';
 import ViewCommentsScreen from './bulletin/ViewCommentsScreen';
 import CreateCommentScreen from './bulletin/CreateCommentScreen';
+import EditCommentScreen from './bulletin/EditCommentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,9 @@ export default function ParentNavigator() {
         }} />
         <Stack.Screen name="CreateComment" component={CreateCommentScreen} options={{
           title: 'Create Comment'
+        }} />
+        <Stack.Screen name="EditComment" component={EditCommentScreen} options={{
+          title: 'Edit Comment'
         }} />
       </Stack.Navigator>
     </NavigationContainer>

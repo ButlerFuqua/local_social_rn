@@ -58,8 +58,10 @@ export default function ViewCommentsScreen({ route, navigation }: any) {
                             <CommentCard
                                 comment={comment}
                                 navigateToEdit={() => {
-                                    // TODO create editComment screen
-                                    console.log('go to edit comment');
+                                    navigation.navigate('EditComment', {
+                                        commentId: comment.id,
+                                        commentUserId: comment.user_id
+                                    })
                                 }}
                             />
                         ))
