@@ -104,7 +104,7 @@ export class CommentService {
     async deleteComment(commentId: string): Promise<any>{
         try {
             const { error } = await supabaseClient
-            .from('comment')
+            .from('comments')
             .delete()
             .match({ id: commentId })
             return error

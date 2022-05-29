@@ -23,7 +23,7 @@ export default function ViewCommentsScreen({ route, navigation }: any) {
         const { data, error } = await commentService.getCommentsByPostId(post.id);
         if (!data || error) {
             showAlert('Error getting comments', error?.message || 'Please try again');
-            return navigation.navigate('Home');
+            return navigation.pop();
         }
         setComments(data as CommentResponse[])
 

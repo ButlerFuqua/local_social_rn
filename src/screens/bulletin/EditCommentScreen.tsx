@@ -69,7 +69,7 @@ export default function EditCommentScreen({ route, navigation, }: EditCommentScr
       setIsLoading(false);
       return;
     }
-    navigation.replace('Home');
+    navigation.pop();
   }
 
   const handleDeleteComment = async () => {
@@ -83,7 +83,7 @@ export default function EditCommentScreen({ route, navigation, }: EditCommentScr
       setIsLoading(false);
       return;
     }
-    navigation.replace('Home');
+    navigation.pop();
   }
 
   return (

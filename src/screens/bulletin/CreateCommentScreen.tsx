@@ -45,7 +45,7 @@ export default function CreateCommentScreen({ route, navigation }: any) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Create post</Text>
+      <Text style={styles.title}>Add Comment</Text>
       <View style={{ marginBottom: 20 }}></View>
       <CustomTextArea
         customStyles={styles.textArea}

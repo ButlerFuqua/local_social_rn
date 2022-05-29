@@ -41,7 +41,7 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
     const { data, error } = await postService.getPostById(postId);
     if(!data || error){
       showAlert('Error fetching post', error?.message || 'Please try again');
-      return navigation.navigate('Home');
+      return navigation.pop();
     }
 
     const { body, created_at } = data;
@@ -69,7 +69,7 @@ export default function EditPostScreen({ route, navigation, }: EditPostScreenPro
       setIsLoading(false);
       return;
     }
-    navigation.replace('Home');
+    navigation.pop();
   }
 
   const handleDeletePost = async () => {
