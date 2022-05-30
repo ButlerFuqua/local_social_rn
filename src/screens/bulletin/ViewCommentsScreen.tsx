@@ -54,8 +54,9 @@ export default function ViewCommentsScreen({ route, navigation }: any) {
                                     Be the first to comment!</Text>
                             </View>
                         )
-                        : comments.map((comment: CommentResponse) => (
+                        : comments.map((comment: CommentResponse, idx: number) => (
                             <CommentCard
+                                key={idx}
                                 comment={comment}
                                 navigateToEdit={() => {
                                     navigation.navigate('EditComment', {

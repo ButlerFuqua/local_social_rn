@@ -17,6 +17,7 @@ import EditPostScreen from './bulletin/EditPostScreen';
 import ViewCommentsScreen from './bulletin/ViewCommentsScreen';
 import CreateCommentScreen from './bulletin/CreateCommentScreen';
 import EditCommentScreen from './bulletin/EditCommentScreen';
+import EditProfileScreen from './user/EditProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,9 @@ export default function ParentNavigator() {
         }} />
         <Stack.Screen name="EditComment" component={EditCommentScreen} options={{
           title: 'Edit Comment'
+        }} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{
+          title: 'Edit Profile'
         }} />
       </Stack.Navigator>
     </NavigationContainer>

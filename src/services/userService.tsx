@@ -18,6 +18,10 @@ export type ProfileDataResponse = {
     error: any
 }
 
+export type UpdateProfileRequest = {
+    username: string
+}
+
 export class UserService {
 
     constructor() {
@@ -93,6 +97,50 @@ export class UserService {
                 error,
             }
         }
+    }
+
+    async updateProfile(token: string, updateData: UpdateProfileRequest): Promise<any>{
+        const { user } = await authService.getUserDataFromToken(token);
+        if(!user){
+            throw new Error('No user found');
+        }
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .update([updateData])
+                .match({ id: user.id });
+            return { data, error }
+        } catch (error) {
+            return {data: null, error}
+        }
+    }
+
+    async deleteAccount(token: string): Promise<any>{
+        const { user } = await authService.getUserDataFromToken(token);
+        if(!user){
+            throw new Error('No user found');
+        }
+        try {
+            const { error } = await supabaseClient
+            .from('profiles')
+            .delete()
+            .match({ id: user.id })
+            if(error)
+            return error
+        } catch (error) {
+            return error
+        }
+
+        try {
+            const { error } = await supabaseClient.auth.api.deleteUser(
+                token
+              )
+            return error
+        } catch (error) {
+            return error
+        }
+
     }
 
 }

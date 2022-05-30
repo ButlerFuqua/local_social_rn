@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { RootState } from '../../../store';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,8 @@ import LoadingScreen from '../../components/LoadingScreen';
 
 export default function ProfileScreen({navigation, route}: any) {
 
-  const {userId} = route.params;
+  const loggedInUserId = useSelector((state: RootState) => state.user.userId);
+  const { userId } = route.params;
 
   const currentUserId = useSelector((state: RootState) => state.user.userId);
   if(!currentUserId){
@@ -52,6 +53,15 @@ export default function ProfileScreen({navigation, route}: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.username}>{username || 'Loading...'}</Text>
+      {
+        loggedInUserId === userId?(
+          <Pressable onPress={() => {
+            navigation.navigate('EditProfile')
+          }}>
+            <Text style={styles.editButton}>Edit</Text>
+          </Pressable>
+        ): null
+      }
     </View>
   );
 }
@@ -64,6 +74,8 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 18,
-    textAlign: 'center',
   },
+  editButton: {
+    color: 'teal',
+},
 })
