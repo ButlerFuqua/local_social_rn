@@ -6,6 +6,7 @@ import { supabaseClient } from '../clients';
 export type ProfileResponse = {
     username: string
     id: string
+    disabled: boolean
 }
 
 export type AllProfilesResponse = {
@@ -19,7 +20,8 @@ export type ProfileDataResponse = {
 }
 
 export type UpdateProfileRequest = {
-    username: string
+    username?: string
+    disabled?: boolean
 }
 
 export class UserService {
@@ -46,7 +48,7 @@ export class UserService {
     async createProfile(token: string): Promise<any> {
 
         const { user } = await authService.getUserDataFromToken(token);
-        if(!user){
+        if (!user) {
             throw new Error('No user found');
         }
 
@@ -65,7 +67,7 @@ export class UserService {
         }
     }
 
-    async getUsername(userId: string): Promise<any>{
+    async getUsername(userId: string): Promise<any> {
         try {
 
             const { data, error } = await supabaseClient
@@ -79,16 +81,17 @@ export class UserService {
         }
     }
 
-    async getAllProfiles(options?: SearchOptions): Promise<AllProfilesResponse>{
+    async getAllProfiles(options?: SearchOptions): Promise<AllProfilesResponse> {
         const limit = options?.limit || 10;
         const from = options?.from || 0;
-        const to =  options?.to || 10;
+        const to = options?.to || 10;
         try {
             let { data, error } = await supabaseClient
                 .from('profiles')
                 .select()
                 .range(from, to)
                 .order('username', { ascending: true })
+                .eq('disabled', false)
                 .limit(limit)
             return { data: data || [], error }
         } catch (error) {
@@ -99,9 +102,9 @@ export class UserService {
         }
     }
 
-    async updateProfile(token: string, updateData: UpdateProfileRequest): Promise<any>{
+    async updateProfile(token: string, updateData: UpdateProfileRequest): Promise<any> {
         const { user } = await authService.getUserDataFromToken(token);
-        if(!user){
+        if (!user) {
             throw new Error('No user found');
         }
 
@@ -112,31 +115,17 @@ export class UserService {
                 .match({ id: user.id });
             return { data, error }
         } catch (error) {
-            return {data: null, error}
+            return { data: null, error }
         }
     }
 
-    async deleteAccount(token: string): Promise<any>{
-        const { user } = await authService.getUserDataFromToken(token);
-        if(!user){
-            throw new Error('No user found');
-        }
-        try {
-            const { error } = await supabaseClient
-            .from('profiles')
-            .delete()
-            .match({ id: user.id })
-            if(error)
-            return error
-        } catch (error) {
-            return error
-        }
+    // TODO add method to actually delete an account
+    async disableProfile(token: string): Promise<any> {
 
         try {
-            const { error } = await supabaseClient.auth.api.deleteUser(
-                token
-              )
-            return error
+            return this.updateProfile(token, {
+                disabled: true
+            });
         } catch (error) {
             return error
         }

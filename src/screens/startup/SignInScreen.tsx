@@ -18,7 +18,7 @@ export default function SignInScreen({ navigation }: any) {
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
   const dispatch = useDispatch();
-
+  
   const [isLoading, setIsLoading] = useState(true);
   const [email, setLocalEmail] = useState('butlerfuqua+user@gmail.com');
   const [password, setPassword] = useState('password');

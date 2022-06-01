@@ -18,6 +18,7 @@ import ViewCommentsScreen from './bulletin/ViewCommentsScreen';
 import CreateCommentScreen from './bulletin/CreateCommentScreen';
 import EditCommentScreen from './bulletin/EditCommentScreen';
 import EditProfileScreen from './user/EditProfileScreen';
+import DeleteAccountScreen from './user/DeleteAccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +77,9 @@ export default function ParentNavigator() {
         }} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{
           title: 'Edit Profile'
+        }} />
+        <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} options={{
+          title: 'Delete Account'
         }} />
       </Stack.Navigator>
     </NavigationContainer>

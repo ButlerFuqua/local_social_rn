@@ -31,9 +31,9 @@ export const counterSlice = createSlice({
             state.userId = action.payload
         },
         clearUserData: (state) => {
-            state.userToken = null
-            state.username = null
-            state.email = null
+            state.userToken = null;
+            state.username = null;
+            state.email = null;
         },
     },
 });

@@ -9,6 +9,7 @@ import { RootState } from '../../../store'
 import { useSelector } from 'react-redux';
 import { showAlert } from '../../utils/screenUtils';
 import LoadingScreen from '../../components/LoadingScreen';
+import CustomTextInput from '../../components/CustomTextInput';
 
 type EditPostScreenProps = {
   route: {
@@ -25,7 +26,7 @@ export default function EditProfileScreen({ navigation, }: EditPostScreenProps) 
 
   const userToken = useSelector((state: RootState) => state.user.userToken);
   const userId = useSelector((state: RootState) => state.user.userId);
-  if(!userId){
+  if (!userId) {
     showAlert('User not found', 'Please try again');
     return navigation.replace('SignIn');
   }
@@ -37,12 +38,12 @@ export default function EditProfileScreen({ navigation, }: EditPostScreenProps) 
   const getProfile = async () => {
     setIsLoading(true);
 
-    if(!userToken){
+    if (!userToken) {
       return navigation.replace('Home');
     }
 
     const { data, error } = await userService.getProfileData(userId);
-    if(!data || error){
+    if (!data || error) {
       showAlert('Error fetching post', error?.message || 'Please try again');
       return navigation.pop();
     }
@@ -63,28 +64,28 @@ export default function EditProfileScreen({ navigation, }: EditPostScreenProps) 
 
   const handleUpdateProfile = async () => {
     setIsLoading(true);
-    if(!userToken){
+    if (!userToken) {
       return navigation.replace('SignIn');
     }
-    
+
     // * Validation
     // trim and lower
     let modifiedUsername = username.trim().toLowerCase();
     // Minimum characters
-    if(modifiedUsername.length < 6){
+    if (modifiedUsername.length < 6) {
       setIsLoading(false);
       return showAlert('Incorrect username', 'Username must be at least 6 characters long.');
     }
     // remove spaces
     modifiedUsername = modifiedUsername.replace(/\s/g, '_');
-  
 
-    const {error} = await userService.updateProfile(userToken, { 
+
+    const { error } = await userService.updateProfile(userToken, {
       username: modifiedUsername,
-     });
-    if(error){
+    });
+    if (error) {
       let message;
-      if(error?.code === '23505'){
+      if (error?.code === '23505') {
         message = `That username is already taken.`
       }
       showAlert('Error updating profile', message || 'Please Try again');
@@ -94,88 +95,43 @@ export default function EditProfileScreen({ navigation, }: EditPostScreenProps) 
     navigation.pop();
   }
 
-  const handleDeletePost = async () => {
-    setIsLoading(true);
-    if(!userToken){
-      return navigation.replace('SignIn');
-    }
-    const error = await userService.deleteAccount(userToken);
-    if(error){
-      showAlert('Error deleting account', error?.message || 'Please Try again');
-      setIsLoading(false);
-      return;
-    }
-    navigation.replace('SignUp');
-  }
-
   return (
     <View style={styles.wrapper}>
       <ScrollView style={styles.container}>
-      <Text style={styles.title}>Edit profile</Text>
-      <View style={{ marginBottom: 20 }}></View>
-      <CustomTextArea
-        customStyles={styles.textArea}
-        value={username}
-        onChangeText={setUsername}
-      />
-
-      <View style={{ marginBottom: 20 }}></View>
-
-      <CustomButton
-        text="Submit"
-        action={handleUpdateProfile}
-      />
-      <View style={{ marginBottom: 100 }}></View>
-    </ScrollView>
-    {
-      !areYouSureDelete
-      ? (
-        <CustomButton
-          text="Delete"
-          action={() => setAreYouSureDelete(true)}
-          backgroundColor="coral"
-        />
-        
-        )
-        : (
-          <View style={styles.deleteContainer}>
-            <Text style={styles.areYouSure}>
-              Are you sure?
-            </Text>
-            <CustomButton
-              text="Delete forever"
-              action={handleDeletePost}
-              backgroundColor="tomato"
-            />
-          <CustomButton
-            text="Cancel"
-            action={() => setAreYouSureDelete(false)}
+        <View style={{ marginBottom: 20 }}></View>
+        <View style={styles.inputField}>
+          <Text style={styles.label}>Username</Text>
+          <CustomTextInput
+            value={username}
+            onChangeText={setUsername}
           />
-
         </View>
-      )
-    }
+
+        <View style={{ marginBottom: 20 }}></View>
+
+        <CustomButton
+          text="Submit"
+          action={handleUpdateProfile}
+        />
+        <View style={{ marginBottom: 100 }}></View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper:{
+  wrapper: {
     flex: 1,
   },
   container: {
     flex: 1,
     padding: 15
   },
-  title: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: '#000000',
-    textAlign: 'center',
+  inputField: {
+    marginBottom: 15,
   },
-  textArea: {
-    width: '95%',
-    alignSelf: 'center',
+  label: {
+    marginBottom: 10,
   },
   deleteContainer: {
     padding: 30
